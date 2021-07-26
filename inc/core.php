@@ -402,6 +402,8 @@ class d_core
     {
         echo '<div class="wrap"><div id="icon-tools" class="icon32"></div>';
         echo '<h2>Chargify API Helper Dashboard</h2>';
+        echo '<p>Please enter all information and add all products in settings and submit before trying to use the shortcode.<p>';
+        echo '<p>The shortcode for a product form is <strong>[chargify_product_form product=x]</strong> where x is the product ID or name you added in settings. If you remove the product parameter from the shortcode, it will display all products listed in settings.<p>';
         echo '</div>';
     }
 
