@@ -1,1 +1,0 @@
-console.log('ADMIN Loaded: Chargify API Helper');

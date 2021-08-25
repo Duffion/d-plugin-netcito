@@ -21,6 +21,7 @@ class d_enqueue
     function _define()
     {
         $this->actions = [
+
             'add_admin_styles' => [
                 'function' => 'admin_styles',
                 'hook' => 'admin_enqueue_scripts'
@@ -29,6 +30,7 @@ class d_enqueue
                 'function' => 'admin_scripts',
                 'hook' => 'admin_enqueue_scripts'
             ],
+
         ];
 
         $this->scripts = [
@@ -61,7 +63,6 @@ class d_enqueue
 
     function init()
     {
-        $this->register();
     }
 
     private function _reg($type, $objs = [])
@@ -98,11 +99,17 @@ class d_enqueue
 
     public function admin_scripts()
     {
+        if (!empty($this->scripts)) {
+            $this->_reg('scripts', $this->scripts);
+        }
         $this->_admin_('scripts');
     }
 
     public function admin_styles()
     {
+        if (!empty($this->styles)) {
+            $this->_reg('styles', $this->styles);
+        }
         $this->_admin_('styles');
     }
 

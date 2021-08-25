@@ -38,14 +38,12 @@ if (!class_exists('D_CHARGIFY')) :
             'inc' => 'inc',
             'traits' => 'inc/traits',
             'vendors' => 'inc/vendors',
-            'api' => 'inc/api',
             'assets' => 'assets',
             'scripts' => 'assets/js',
             'styles' => 'assets/css',
             'templates' => 'templates',
             'modules' => 'inc/modules',
             'templates-modules' => 'templates/modules',
-            'api' => 'inc/api',
             'vendors' => 'inc/vendors'
         ];
 
@@ -100,7 +98,7 @@ if (!class_exists('D_CHARGIFY')) :
         {
             global $d_plugin_dirs;
 
-            $this->dirs['plugin'] = ABSPATH . 'wp-content/plugins/chargify-api-helper';
+            $this->dirs['plugin'] = rtrim(plugin_dir_path(__FILE__), '/');
 
             $d_plugin_dirs = $this->dirs;
         }
