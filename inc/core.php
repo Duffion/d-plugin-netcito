@@ -305,7 +305,7 @@ class d_core
             $form = str_replace('[thank-you]', $options['thank-you'], $form);
         }
 
-        if ($product && $product !== '') {
+        if ($product && $product !== 'all') {
             $form = str_replace('[hide-product-select]', ' hidden', $form);
         }
 
