@@ -14,7 +14,8 @@ class d_enqueue
 
     var $registered = [
         'scripts' => [],
-        'styles' => []
+        'styles' => [],
+        'fe_styles' => []
     ];
 
 
@@ -30,7 +31,10 @@ class d_enqueue
                 'function' => 'admin_scripts',
                 'hook' => 'admin_enqueue_scripts'
             ],
-
+            'add_fe_styles' => [
+                'function' => 'fe_style',
+                'hook' => 'wp_enqueue_scripts'
+            ],
         ];
 
         $this->scripts = [
@@ -43,8 +47,8 @@ class d_enqueue
             ]
         ];
 
-        $this->styles = [
-            'd-admin-main-css' => [
+        $this->fe_styles = [
+            'd-fe-main-css' => [
                 'file_name' => 'main.css',
                 'version' => '0.0.1',
             ]
@@ -95,6 +99,10 @@ class d_enqueue
         if (!empty($this->styles)) {
             $this->_reg('styles', $this->styles);
         }
+
+        if (!empty($this->fe_styles)) {
+            $this->_reg('fe_styles', $this->fe_styles);
+        }
     }
 
     public function admin_scripts()
@@ -122,6 +130,23 @@ class d_enqueue
         if ($registered) {
             $this->_enqueue($type, $registered);
         }
+    }
+
+    public function fe_scripts()
+    {
+        if (!empty($this->scripts)) {
+            $this->_reg('scripts', $this->scripts);
+        }
+        $this->_admin_('scripts');
+    }
+
+    public function fe_style()
+    {
+        if (!empty($this->fe_styles)) {
+            $this->_reg('fe_styles', $this->fe_styles);
+        }
+
+        $this->_admin_('fe_styles');
     }
 }
 

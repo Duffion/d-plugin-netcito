@@ -13,7 +13,7 @@ class d_core
 
     // [ 'directory-namespace' => 'directory folder' ]
     private $auto_dirs = [
-        'modules', 'api', 'vendors'
+        'modules'
     ];
 
     private $frontend_scripts = [
@@ -189,7 +189,15 @@ class d_core
                     'chargify_token' => $p['d_chargify_token']
                 ];
 
+                // Lets add our coupon code to our order //
+                if (isset($p['coupon']) && $p['coupon'] !== '') {
+                    $query['subscription']['metafields'] = [
+                        'coupon' => $p['coupon']
+                    ];
+                }
                 $results = $this->chargify('/subscriptions.json', $query);
+                wpp($results);
+                wpp($query) . die;
                 if ($results && isset($results->subscription) && $results->subscription->state === 'active') {
                     // we have an active success //
                     // log it //
@@ -331,7 +339,7 @@ class d_core
         // Get Current Year
         $current_year = date("Y");
         $expiration_years = range($current_year, $current_year + 50);
-
+        $exp_year_options = '';
         foreach ($expiration_years as $year) {
             $exp_year_options .= '<option value="' . $year . '">' . $year . '</option>';
         }
@@ -601,7 +609,6 @@ class d_core
         echo 'jQuery(document).ready(function() {' . "\n";
         echo 'var count = ' . $count . ';' . "\n";
         echo 'jQuery(".add_product").click(function() {' . "\n";
-        echo 'console.log("Hello World!");' . "\n";
         echo 'count = count + 1;' . "\n";
         echo 'jQuery(".product_list").append(\'<li>' . $this->form__input_helper($label_for . '[' . $count . ']') . '</li>\');' . "\n";
         echo 'return false;' . "\n";
