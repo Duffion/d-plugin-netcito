@@ -6,8 +6,8 @@ namespace D\CHARGIFY;
  * Plugin Name: Chargify API Helper Tool
  * Plugin URI: https://duffion.com
  * Description: This is a custom built tool that allows for easy integration with the Chargify API
- * Version: 0.0.1
- * Author: John Underwood
+ * Version: 0.2.0
+ * Author: Christopher "Duffs" Crevling & John Underwood
  * Text Domain: chargify-api-helper
  * Author URI: https://duffion.com
  * License: GPLv2 or later
@@ -26,7 +26,7 @@ if (!class_exists('D_CHARGIFY')) :
     class D_CHARGIFY
     {
 
-        var $version = '0.0.1';
+        var $version = '0.2.1';
 
         public $settings = [];
 
@@ -37,10 +37,10 @@ if (!class_exists('D_CHARGIFY')) :
             'modules' => 'inc/modules',
             'inc' => 'inc',
             'traits' => 'inc/traits',
-            'vendors' => 'inc/vendors',
             'assets' => 'assets',
             'scripts' => 'assets/js',
             'styles' => 'assets/css',
+            'fe_styles' => 'assets/css/fe',
             'templates' => 'templates',
             'modules' => 'inc/modules',
             'templates-modules' => 'templates/modules',
@@ -64,6 +64,25 @@ if (!class_exists('D_CHARGIFY')) :
             $this->_define();
         }
 
+        function _git_updater()
+        {
+            require $this->dirs['plugin'] . '/' . $this->dirs['vendors'] . '/plugin-update-checker/plugin-update-checker.php';
+
+            $config = [
+                'git' => 'https://github.com/Duffion/d-plugin-netcito/',
+                'target_branch' => 'production'
+            ];
+
+            $this->updater = \Puc_v4_Factory::buildUpdateChecker(
+                $config['git'],
+                __FILE__,
+                'd-plugin-netcito'
+            );
+
+            //Set the branch that contains the stable release.
+            $this->updater->setBranch($config['target_branch']);
+        }
+
         /**
          * _load - []
          * We need to load in all the required core files / traits
@@ -78,6 +97,9 @@ if (!class_exists('D_CHARGIFY')) :
             require_once $this->dirs['plugin'] . '/' . $this->dirs['inc'] . '/util.php';
             require_once $this->dirs['plugin'] . '/' . $this->dirs['traits'] . '/d-primary.php';
             require_once $this->dirs['plugin'] . '/' . $this->dirs['traits'] . '/d-templates.php';
+            require_once $this->dirs['plugin'] . '/' . $this->dirs['inc'] . '/vendors.php';
+
+            $this->_git_updater();
 
             // Lets now load in our other flies with the util loader //
             if ($this->_loading && count($this->_loading) > 0) {

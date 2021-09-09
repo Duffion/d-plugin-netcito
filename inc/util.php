@@ -37,6 +37,7 @@ if (!function_exists('d_register_asset')) {
                 return wp_register_script($ns, $location, (isset($params['deps']) ? $params['deps'] : []), $version, (isset($params['in_footer']) ? $params['in_footer'] : false));
                 break;
             case 'styles':
+            case 'fe_styles':
                 return wp_register_style($ns, $location, (isset($params['deps']) ? $params['deps'] : []), $version, (isset($params['media']) ? $params['media'] : 'all'));
                 break;
         endswitch;

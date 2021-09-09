@@ -23,11 +23,12 @@ const path = require('path'),
 
     node_dependencies = Object.keys(require('./package.json').dependencies || {});
 
-gulp.task('clear', () => del(['assets/css/*.css', 'assets/js/*.js']));
+gulp.task('clear', () => del(['assets/css/*.css', 'assets/css/fe/*.css', 'assets/js/*.js', 'assets/js/fe/*.js']));
 
 gulp.task('sass', () => {
     return gulp.src([
-        'assets/src/sass/**/*.scss'
+        'assets/src/sass/*.scss',
+        'assets/src/sass/includes/*.scss'
     ], { since: gulp.lastRun('sass') })
         .pipe(sourcemaps.init())
         .pipe(plumber())
@@ -39,6 +40,22 @@ gulp.task('sass', () => {
         .pipe(gulp.dest('assets/css'))
         .pipe(browserSync.stream());
 });
+
+gulp.task('fe-sass', () => {
+    return gulp.src([
+        'assets/src/sass/fe/main.scss',
+        'assets/src/sass/fe/includes/*.scss'
+    ], {})
+        .pipe(sourcemaps.init())
+        .pipe(plumber())
+        .pipe(dependents())
+        .pipe(sass())
+        .pipe(autoprefixer())
+        .pipe(minifyCss())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('assets/css/fe'));
+});
+
 
 gulp.task('js', () => {
     return gulp.src(['assets/src/js/*.js'], { since: gulp.lastRun('js') })
@@ -98,7 +115,7 @@ gulp.task('vendor', () => {
         .pipe(browserSync.stream());
 });
 
-gulp.task('build', gulp.series('clear', 'sass', 'js', 'fe-js', 'images', 'vendor'));
+gulp.task('build', gulp.series('clear', 'sass', 'fe-sass', 'js', 'fe-js', 'images', 'vendor'));
 
 
 gulp.task('watch', () => {
@@ -113,7 +130,10 @@ gulp.task('watch', () => {
     });
 
     const watch = [
-        'assets/src/sass/**/*.scss',
+        'assets/src/sass/fe/*.scss',
+        'assets/src/sass/fe/includes/*.scss',
+        'assets/src/sass/*.scss',
+        'assets/src/sass/includes/*.scss',
         'assets/src/js/*.js',
         'assets/src/js/fe/*.js'
     ];
@@ -123,6 +143,6 @@ gulp.task('watch', () => {
     gulp.watch(watchVendor, gulp.series('vendor')).on('change', browserSync.reload);
 });
 
-gulp.task('dev', gulp.series('sass', 'js', 'fe-js', 'watch'));
+gulp.task('dev', gulp.series('sass', 'fe-sass', 'js', 'fe-js', 'watch'));
 
 gulp.task('default', gulp.series('build', gulp.parallel('watch')));
