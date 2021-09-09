@@ -47,10 +47,10 @@ class d_core
                 'hook' => 'admin_menu',
                 'function' => 'add_admin_menu'
             ],
-            'd-register-meta-box' => [
-                'hook' => 'add_meta_boxes',
-                'function' => 'add_dynamic_product_fields'
-            ],
+            // 'd-register-meta-box' => [
+            //     'hook' => 'add_meta_boxes',
+            //     'function' => 'add_dynamic_product_fields'
+            // ],
             'd-on-submit-nopriv-check' => [
                 'hook' => 'admin_post_nopriv_submit_subscription',
                 'function' => 'submit_subscription'
@@ -651,7 +651,9 @@ class d_core
             add_settings_error('chargify-api-settings-messages', 'settings_message', __('Settings Saved', 'chargify-api-settings'), 'updated');
         }
 
-        do_action('add_meta_boxes', $hook_suffix);
+        $hook_suffix = [];
+
+        do_action('add_meta_boxes');
 
         // show error/update messages
         settings_errors('chargify-api-settings-messages');
