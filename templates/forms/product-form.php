@@ -42,11 +42,21 @@ $uid = uuid();
     <div class="field-group" id="month"></div>
     <div class="field-group" id="year"></div>
     <div class="field-group" id="cvv"></div>
+
     <div class="field-group" id="zip_code">
         <div class="cfy-field cfy-field--zip"><label class="cfy-label cfy-label--zip" for="cfy-zip">Zip Code</label>
-            <div class="cfy-input-container"><input class="cfy-input cfy-input--zip" id="cfy-zip" name="zip" maxlength="5" autocomplete="card postal-code" placeholder="10001"></div>
+            <div class="cfy-input-container"><input class="cfy-input cfy-input--zip" id="cfy-zip" name="zip" maxlength="5" autocomplete="postal-code" placeholder="10001"></div>
+        </div>
+        <div class="field-group coupon-code">
+            <a href="javascript: void(0);" data-chargify-coupon="toggle" class="btn btn-primary cfy-action">Add a Coupon Code</a>
+            <div class="field-group--coupon-input hidden" id="coupon">
+                <div class="cfy-field cfy-field--coupon"><label class="cfy-label cfy-label--coupon" for="cfy-zip">Coupon Code</label>
+                    <div class="cfy-input-container"><input class="cfy-input cfy-input--coupon" id="cfy-coupon" name="coupon" autocomplete="coupon_code" placeholder="Enter your coupon code..."></div>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="field-group hidden">
         <input type="hidden" name="d_chargify_nonce" value="[nonce]" />
         <input type="hidden" name="d_chargify_token" value="" />

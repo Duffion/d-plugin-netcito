@@ -1,7 +1,10 @@
 import $ from "jquery";
-import { chargify } from 'chargify-api';
 
 let FE_SC_HELPER = {
+
+    styles: {
+        message: { paddingTop: '2px', paddingBottom: '1px' }
+    },
 
     api: {
         subdomain: false,
@@ -39,20 +42,15 @@ let FE_SC_HELPER = {
     targets: {},
 
     chargify: false,
-    chargify_rc: false,
 
     init: function () {
         console.log('initalize the helper');
         this.define();
         let api = this.api;
-        this.chargify_rc = new chargify(api.subdomain, api.key);
-
-        this.chargify = new Chargify();
-        this.chargify.load({
+        let config = {
             publicKey: api.key,
             selector: '.d-chargify-form',
             type: 'card',
-            addressDropdowns: true,
             serverHost: 'https://' + api.subdomain + '.chargify.com',
             fields: {
                 // firstName: {
@@ -115,17 +113,6 @@ let FE_SC_HELPER = {
                         message: { paddingTop: '2px', paddingBottom: '1px' }
                     }
                 },
-                state: {
-                    selector: '#state',
-                    label: 'State',
-                    placeholder: 'Select...',
-                    required: false,
-                    message: 'This field is not valid. Please update it.',
-                    maxlength: '2',
-                    style: {
-                        message: { paddingTop: '2px', paddingBottom: '1px' }
-                    }
-                },
                 // zip: {
                 //     selector: '#zip_code',
                 //     label: 'Zip Code',
@@ -138,7 +125,10 @@ let FE_SC_HELPER = {
                 //     }
                 // }
             }
-        });
+        };
+        this.chargify = new Chargify();
+        console.log('config', config);
+        this.chargify.load(config);
 
         this.register();
 
@@ -155,6 +145,10 @@ let FE_SC_HELPER = {
             // console.log('iframe', iframe, $(document)[0]['get %card%#first_name']());
             // console.log('test', $('.cfy-input'), this.targets.forms.find('iframe'), this.targets.forms.find('iframe')[0], $(this.targets.forms.find('iframe')[0]).contents());
         }, 3000);
+
+        if (typeof this.targets.coupon !== 'undefined' && this.targets.coupon.length > 0) {
+            this.targets.coupon.on('click', this.handle.toggleCoupon);
+        }
     },
 
     define: function () {
@@ -168,6 +162,7 @@ let FE_SC_HELPER = {
             this.api.thankyou = forms.data('d-thank-you');
 
             this.targets.forms = forms;
+            this.targets.coupon = forms.find('[data-chargify-coupon="toggle"]');
         }
     },
 
@@ -212,12 +207,12 @@ let FE_SC_HELPER = {
         validate: function (values, form) {
             let required = ['first_name', 'last_name', 'email', 'zip_code'];
             // Make sure our required values are here //
-
+            console.log('Submitting', form, FE_SC_HELPER.chargify);
             // Lets now run our primary card validation //
             FE_SC_HELPER.chargify.token(
                 form[0],
                 function success(token) {
-                    // console.log('Success token', token, form, values);
+                    console.log('Success token', token, form, values);
                     // lets fill out the data properly //
                     form.find('input[name="d_chargify_token"]').val(token);
 
@@ -234,6 +229,25 @@ let FE_SC_HELPER = {
     },
 
     handle: {
+        toggleCoupon: function (e) {
+            var couponField = FE_SC_HELPER.targets.coupon.parent().find('#coupon');
+            console.log('field', couponField);
+            if (couponField.hasClass('hidden')) {
+                // show //
+                couponField.removeClass('hidden').fadeIn(300);
+                $(this).text('Remove Coupon Code');
+            } else {
+                // hide //
+                couponField.addClass('hidden').fadeOut(300).find('input').val('');
+                $(this).text('Add Coupon Code');
+            }
+        },
+        action: function (e) {
+            e.preventDefault();
+            var action = $(this).data('chargify-coupon');
+
+
+        },
         submission: function (e) {
             e.preventDefault();
             let values = {};

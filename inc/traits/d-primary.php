@@ -65,8 +65,8 @@ trait PRIME
                             $sub_item['capability'],
                             $sub_item['menu_slug'],
                             (!is_array($sub_item['function']) ? [$that, $sub_item['function']] : $sub_item['function']),
-                            (isset($sub_item['icon_url']) ? $sub_item['icon_url'] : ''),
-                            (isset($sub_item['position']) ? $sub_item['position'] : NULL)
+                            (isset($sub_item['position']) ? $sub_item['position'] : NULL),
+                            (isset($sub_item['icon_url']) ? $sub_item['icon_url'] : '')
                         );
                     }
                 }
@@ -110,6 +110,7 @@ trait PRIME
      */
     function _enqueue($type, $targets)
     {
+
         if (is_array($targets) && count($targets) > 0) {
             foreach ($targets as $reg_ns => $reged) {
                 if ($reged) {
@@ -118,6 +119,7 @@ trait PRIME
                             wp_enqueue_script($reg_ns);
                             break;
                         case 'styles':
+                        case 'fe_styles':
                             wp_enqueue_style($reg_ns);
                             break;
                     endswitch;
