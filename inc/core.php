@@ -653,7 +653,7 @@ class d_core
 
         $hook_suffix = [];
 
-        do_action('add_meta_boxes');
+        // do_action('add_meta_boxes');
 
         // show error/update messages
         settings_errors('chargify-api-settings-messages');
