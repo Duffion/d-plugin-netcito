@@ -2,6 +2,7 @@
 
 /* Chargify API Helper Form template - Product Form */
 $uid = uuid();
+
 ?>
 <link rel="stylesheet" id="chargify-css" href="https://js.chargify.com/latest/hosted-field.css">
 <script src="https://js.chargify.com/latest/chargify.js"></script>
@@ -9,7 +10,8 @@ $uid = uuid();
 <p>* required</p>
 <p id="product_form_error"></p>
 <form name="chargify_product_form" action="[admin-post]" class="d-chargify-form" method="post" data-d-chargify="[api-key]" data-d-thank-you="[thank-you]" data-d-subdomain="[subdomain]">
-    <div class="field-group">
+
+    <div class="field-group[hide-product-select]">
         <div class="cfy-field cfy-field--product">
             <label class="cfy-label cfy-label--product" for="product">
                 Product

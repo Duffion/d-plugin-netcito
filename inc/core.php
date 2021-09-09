@@ -196,8 +196,7 @@ class d_core
                     ];
                 }
                 $results = $this->chargify('/subscriptions.json', $query);
-                wpp($results);
-                wpp($query) . die;
+
                 if ($results && isset($results->subscription) && $results->subscription->state === 'active') {
                     // we have an active success //
                     // log it //
@@ -257,13 +256,14 @@ class d_core
         // Lets add in the javascript directly to the template //
         $form = $this->load_scripts();
 
-        // Grab the form template
-        $form .= file_get_contents(plugin_dir_path(__FILE__) . '../templates/forms/product-form.php');
-
         // Extract the shortcode attributes passed and define defaults
         extract(shortcode_atts(array(
             'product' => 'all'
         ), $atts));
+
+        // Grab the form template
+        $form .= file_get_contents(plugin_dir_path(__FILE__) . '../templates/forms/product-form.php');
+
 
         // Create the options for the products dropdown
         $product_options = '';
@@ -303,6 +303,10 @@ class d_core
 
         if ($options['thank-you']) {
             $form = str_replace('[thank-you]', $options['thank-you'], $form);
+        }
+
+        if ($product && $product !== '') {
+            $form = str_replace('[hide-product-select]', ' hidden', $form);
         }
 
         $nonce = $this->create_nonce();
