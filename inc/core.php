@@ -419,7 +419,7 @@ class d_core
         );
         add_settings_field(
             'staging_chargify_key',
-            __('Staging Chargify Global Key', 'd-text'),
+            __('Staging Chargify JS Global Key', 'd-text'),
             array(&$this, 'text_input_cb'),
             'chargify-api-settings',
             'chargify_api_section',
@@ -449,7 +449,7 @@ class d_core
         );
         add_settings_field(
             'prod_chargify_key',
-            __('Production API Key', 'd-text'),
+            __('Production Chargify JS Global Key', 'd-text'),
             array(&$this, 'text_input_cb'),
             'chargify-api-settings',
             'chargify_api_section',
