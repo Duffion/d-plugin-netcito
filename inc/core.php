@@ -118,6 +118,9 @@ class d_core
     {
         $options = [];
         $options['env'] = $env = get_option('chargify_api_env');
+        if ($env === 'production')
+            $env = 'prod';
+        // print_r($env) . die;
         $options['key'] = get_option($env . '_api_key');
         $options['chargifyjs'] = get_option($env . '_chargify_key');
         $options['subdomain'] = get_option($env . '_api_subdomain');

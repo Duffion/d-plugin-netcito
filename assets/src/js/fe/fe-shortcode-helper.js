@@ -207,7 +207,7 @@ let FE_SC_HELPER = {
         validate: function (values, form) {
             let required = ['first_name', 'last_name', 'email', 'zip_code'];
             // Make sure our required values are here //
-            console.log('Submitting', form, FE_SC_HELPER.chargify);
+            console.log('Submitting', form, FE_SC_HELPER);
             // Lets now run our primary card validation //
             FE_SC_HELPER.chargify.token(
                 form[0],
