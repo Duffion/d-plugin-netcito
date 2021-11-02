@@ -6,7 +6,7 @@ namespace D\CHARGIFY;
  * Plugin Name: Chargify API Helper Tool
  * Plugin URI: https://duffion.com
  * Description: This is a custom built tool that allows for easy integration with the Chargify API
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Christopher "Duffs" Crevling & John Underwood
  * Text Domain: chargify-api-helper
  * Author URI: https://duffion.com
@@ -26,7 +26,7 @@ if (!class_exists('D_CHARGIFY')) :
     class D_CHARGIFY
     {
 
-        var $version = '1.0.2';
+        var $version = '1.0.3';
 
         public $settings = [];
 

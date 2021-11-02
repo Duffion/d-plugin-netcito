@@ -294,6 +294,16 @@ class d_core
         // Add product options to form template
         $form = str_replace('[product_select]', $product_options, $form);
 
+        $err = isset($_GET['errors']) ? explode(',', $_GET['errors']) : false;
+        $errors = '';
+
+        if ($err) {
+            foreach ($err as $er) {
+                $errors .= '<p>' . $er . '</p>';
+            }
+        }
+        $form = str_replace('[errors]', $errors, $form);
+
         // Add in the options for api keys and form confirmations
         $options = $this->get_opts();
         if ($options['chargifyjs']) {
