@@ -223,6 +223,7 @@ let FE_SC_HELPER = {
                 function error(err) {
                     console.log('token error', err);
                     // there was an error, handle it //
+                    $('#product_form_error').html(err.message);
                 }
             );
         }
