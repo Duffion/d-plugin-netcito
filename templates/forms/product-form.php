@@ -2,19 +2,14 @@
 
 /* Chargify API Helper Form template - Product Form */
 $uid = uuid();
-$err = isset($_GET['errors']) ? explode(',', $_GET['errors']) : false;
+
 ?>
 <link rel="stylesheet" id="chargify-css" href="https://js.chargify.com/latest/hosted-field.css">
 <script src="https://js.chargify.com/latest/chargify.js"></script>
 <h1>Product Form</h1>
 <p>* required</p>
 <div id="product_form_error">
-    <?php if ($err && count($err) > 0) {
-        foreach ($err as $er) {
-            echo '<p>' . $er . '</p>';
-        }
-    }
-    ?>
+    [errors]
 </div>
 <form name="chargify_product_form" action="[admin-post]" class="d-chargify-form" method="post" data-d-chargify="[api-key]" data-d-thank-you="[thank-you]" data-d-subdomain="[subdomain]">
 
